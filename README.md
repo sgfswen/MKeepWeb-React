@@ -45,3 +45,9 @@ In this case you have to install libs one by one
 npm ERR! Cannot find module 'internal/fs'
 ```
 Install latest stable `npm` and `node` and do `$ sudo rm -rf /usr/local/lib/node_modules/`
+
+##Dev tools
+[React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
+
+Install extension and restart browser
+
