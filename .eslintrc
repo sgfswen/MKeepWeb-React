@@ -213,13 +213,7 @@
             2,
             "declaration"
         ],
-        "indent": [
-            2,
-            2,
-            {
-                "SwitchCase": 1
-            }
-        ],
+        "indent": ["error", 4, { "SwitchCase": 1 }],
         "jsx-quotes": [
             2,
             "prefer-single"
@@ -329,14 +323,8 @@
             "never"
         ],
         "react/jsx-handler-names": 2,
-        "react/jsx-indent-props": [
-            2,
-            2
-        ],
-        "react/jsx-indent": [
-            2,
-            2
-        ],
+        "react/jsx-indent-props": 2,
+        "react/jsx-indent": 2,
         "react/jsx-key": 2,
         "react/jsx-max-props-per-line": [
             2,

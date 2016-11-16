@@ -1,8 +1,8 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
 import Button from 'react-bootstrap-button-loader';
-import {timeRequest} from 'redux/actions/timeActions';
+import { timeRequest } from 'redux/actions/timeActions';
 
 const propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -22,7 +22,7 @@ class TimePage extends Component {
     }
 
     render() {
-        const {loading, time} = this.props;
+        const { loading, time } = this.props;
 
         return (
             <div>
@@ -35,9 +35,9 @@ class TimePage extends Component {
 }
 
 function mapStateToProps(state) {
-    const {loading, time} = state.time;
+    const { loading, time } = state.time;
 
-    return {loading, time};
+    return { loading, time };
 }
 
 TimePage.propTypes = propTypes;

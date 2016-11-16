@@ -28,12 +28,12 @@ class App extends Component {
     handleNameChange(val) {
         const name = val.target.value;
 
-        this.setState({touched: true});
+        this.setState({ touched: true });
 
         if (name.length === 0) {
-            this.setState({name: this.props.initialName});
+            this.setState({ name: this.props.initialName });
         } else {
-            this.setState({name});
+            this.setState({ name });
         }
     }
 
@@ -55,7 +55,7 @@ class App extends Component {
             <div className='App'>
                 <h1>Hello World!</h1>
                 <h2>Авторизация</h2>
-                <OAuthButton provider='github' />
+                <OAuthButton provider='github'/>
                 <SignOutButton />
                 <div>
                     <p>Введите Ваше имя:</p>

@@ -1,8 +1,8 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {oAuthSignIn} from 'redux-oauth';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { oAuthSignIn } from 'redux-oauth';
 import Button from 'react-bootstrap-button-loader';
-import {isUserSignedIn} from 'redux/models/user';
+import { isUserSignedIn } from 'redux/models/user';
 
 const propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -19,13 +19,13 @@ class OAuthButton extends Component {
     }
 
     handleClick() {
-        const {dispatch, provider} = this.props;
+        const { dispatch, provider } = this.props;
 
-        dispatch(oAuthSignIn({provider}));
+        dispatch(oAuthSignIn({ provider }));
     }
 
     render() {
-        const {loading, provider, userSignedIn} = this.props;
+        const { loading, provider, userSignedIn } = this.props;
 
         if (userSignedIn) {
             return null;
@@ -40,7 +40,7 @@ OAuthButton.propTypes = propTypes;
 function mapStateToProps(state, ownProps) {
     const loading = state.auth.getIn(['oAuthSignIn', ownProps.provider, 'loading']) || false;
 
-    return {userSignedIn: isUserSignedIn(state), loading};
+    return { userSignedIn: isUserSignedIn(state), loading };
 }
 
 export default connect(mapStateToProps)(OAuthButton);

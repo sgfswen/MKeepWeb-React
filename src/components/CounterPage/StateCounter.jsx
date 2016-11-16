@@ -19,7 +19,7 @@ class StateCounter extends Component {
     }
 
     render() {
-        return <Counter value={ this.state.value } onClick={ this.handleClick } />;
+        return <Counter value={this.state.value} onClick={this.handleClick}/>;
     }
 }
 
