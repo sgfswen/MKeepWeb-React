@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import { OAuthButton, SignOutButton } from 'components/AuthButtons';
 
 import './HelloWorldPage.css';
 
@@ -53,6 +54,9 @@ class App extends Component {
         return (
             <div className='App'>
                 <h1>Hello World!</h1>
+                <h2>Авторизация</h2>
+                <OAuthButton provider='github' />
+                <SignOutButton />
                 <div>
                     <p>Введите Ваше имя:</p>
                     <div><input onChange={this.handleNameChange}/></div>
