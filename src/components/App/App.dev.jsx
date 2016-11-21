@@ -5,6 +5,7 @@ import DevTools from '../DevTools';
 const propTypes = {
     children: PropTypes.node
 };
+const renderDevTools = false;
 
 class App extends Component {
     render() {
@@ -12,7 +13,7 @@ class App extends Component {
             <AppProd>
                 <div>
                     {this.props.children}
-                    <DevTools />
+                    {renderDevTools && <DevTools />}
                 </div>
             </AppProd>
         );

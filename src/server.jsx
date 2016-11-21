@@ -8,6 +8,10 @@ import configureStore from './redux/configureStore';
 import cookieParser from 'cookie-parser';
 import { getHeaders, initialize } from 'redux-oauth';
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import theme from './theme';
+
 const app = express();
 
 app.use(cookieParser());
@@ -40,10 +44,16 @@ app.use((req, res) => {
             return res.status(404).send('Not found');
         }
 
+        const muiTheme = getMuiTheme(theme, {
+            userAgent: req.headers['user-agent']
+        });
+
         const componentHTML = ReactDom.renderToString(
-            <Provider store={store}>
-                <RouterContext {...renderProps} />
-            </Provider>
+            <MuiThemeProvider muiTheme={muiTheme}>
+                <Provider store={store}>
+                    <RouterContext {...renderProps} />
+                </Provider>
+            </MuiThemeProvider>
         );
 
         const state = store.getState();
