@@ -2,30 +2,44 @@
 import React, { Component, PropTypes } from 'react';
 // UI components
 import AppBar from 'material-ui/AppBar';
+import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
+// Icons
 import NavigationMenuIcon from 'material-ui/svg-icons/navigation/menu';
 
 const propTypes = {
-    toggleNavigationMenu: PropTypes.func
+    handleNavigationClick: PropTypes.func,
+    handleLogInClick: PropTypes.func
 };
 
 class Header extends Component {
-    handleToggle = () => {
-        console.info('Navigation button was clicked');
+    constructor(props) {
+        super(props);
 
-        this.props.toggleNavigationMenu();
-    };
+        this.state = {
+            logged: false,
+            open: false
+        };
+    }
 
     render() {
         return (
-            <AppBar
-                title='Money Keeper'
-                iconElementLeft={
-                    <IconButton onTouchTap={this.handleToggle}>
-                        <NavigationMenuIcon />
-                    </IconButton>
-                }
-            />
+            <div>
+                <AppBar
+                    title='Money Keeper'
+                    iconElementLeft={
+                        <IconButton onTouchTap={this.props.handleNavigationClick}>
+                            <NavigationMenuIcon />
+                        </IconButton>
+                    }
+                    iconElementRight={this.state.logged ? {} :
+                        <FlatButton
+                            onTouchTap={this.props.handleLogInClick}
+                            label='Log in'
+                        />
+                    }
+                />
+            </div>
         );
     }
 }

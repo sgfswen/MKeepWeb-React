@@ -1,7 +1,8 @@
 // React
 import React, { Component, PropTypes } from 'react';
-// UI components
+// Components
 import Header from './Header';
+import { LogInDialog } from '../Authorization';
 import NavigationMenu from './NavigationMenu';
 // Styles
 import './Layout.css';
@@ -15,31 +16,43 @@ class Layout extends Component {
         super(props);
 
         this.state = {
-            navigationMenuIsOpened: false
+            isNavigationMenuOpened: false,
+            isLogInDialogOpened: false
         };
     }
 
     setNavigationMenuState = (state) => {
         this.setState({
-            navigationMenuIsOpened: state
+            isNavigationMenuOpened: state
         });
     };
 
     toggleNavigationMenu = () => {
-        this.setNavigationMenuState(!this.state.navigationMenuIsOpened);
+        this.setNavigationMenuState(!this.state.isNavigationMenuOpened);
+    };
+
+    toggleLogInDialog = () => {
+        this.setState({
+            isLogInDialogOpened: !this.state.isLogInDialogOpened
+        });
     };
 
     render() {
         return (
             <div>
                 <Header
-                    toggleNavigationMenu={this.toggleNavigationMenu}
+                    handleNavigationClick={this.toggleNavigationMenu}
+                    handleLogInClick={this.toggleLogInDialog}
                 />
                 <NavigationMenu
-                    isOpened={this.state.navigationMenuIsOpened}
+                    isOpened={this.state.isNavigationMenuOpened}
                     setState={this.setNavigationMenuState}
                 />
                 {this.props.children}
+                <LogInDialog
+                    isOpened={this.state.isLogInDialogOpened}
+                    handleClose={this.toggleLogInDialog}
+                />
             </div>
         );
     }
