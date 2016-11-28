@@ -1,20 +1,27 @@
 // React
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import { browserHistory } from 'react-router';
 // UI components
+import Divider from 'material-ui/Divider';
 import Drawer from 'material-ui/Drawer';
+import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 // Icons
 import AccountsIcon from 'material-ui/svg-icons/action/account-balance-wallet';
 import CategoriesIcon from 'material-ui/svg-icons/action/list';
 import CurrenciesIcon from 'material-ui/svg-icons/action/euro-symbol';
+import HomeIcon from 'material-ui/svg-icons/action/home';
+// Styles
+import './NavigationMenu.css';
 
 const propTypes = {
     isOpened: PropTypes.bool,
     setState: PropTypes.func
 };
 
-class Header extends Component {
+let menuItemsCounter = 0;
+
+class NavigationMenu extends Component {
     constructor(props) {
         super(props);
 
@@ -31,47 +38,58 @@ class Header extends Component {
         this.props.setState(state);
     };
 
+    getMenuItemElement = (menuItemData) =>
+        <MenuItem
+            key={menuItemsCounter++}
+            primaryText={menuItemData.text}
+            onTouchTap={() => {
+                this.handleClose();
+                browserHistory.push(menuItemData.link);
+            }}
+            leftIcon={menuItemData.icon}
+        />;
+
     render() {
-        const menuItems = [
+        const homeMenuItem = this.getMenuItemElement({
+            link: '/',
+            text: 'Home',
+            icon: <HomeIcon />
+        });
+        const settingsMenuItems = [
             {
-                id: 1,
-                link: '/currencies',
+                link: '/settings/currencies',
                 text: 'Currencies',
                 icon: <CurrenciesIcon />
             },
             {
-                id: 2,
-                link: '/accounts',
+                link: '/settings/accounts',
                 text: 'Accounts',
                 icon: <AccountsIcon />
             },
             {
-                id: 3,
-                link: '/categories',
+                link: '/settings/categories',
                 text: 'Categories',
                 icon: <CategoriesIcon />
             }
-        ].map(menuItem => <Link to={menuItem.link} key={menuItem.id}>
-            <MenuItem
-                primaryText={menuItem.text}
-                leftIcon={menuItem.icon}
-                onTouchTap={this.handleClose}
-                key={menuItem.id}
-            />
-        </Link>);
+        ].map(this.getMenuItemElement);
 
         return (
             <Drawer
                 open={this.props.isOpened}
                 docked={false}
                 onRequestChange={this.handleState}
+                className='navigation_menu'
             >
-                {menuItems}
+                <Menu>
+                    {homeMenuItem}
+                    <Divider />
+                    {settingsMenuItems}
+                </Menu>
             </Drawer>
         );
     }
 }
 
-Header.propTypes = propTypes;
+NavigationMenu.propTypes = propTypes;
 
-export default Header;
+export default NavigationMenu;
