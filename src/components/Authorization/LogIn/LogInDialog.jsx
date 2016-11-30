@@ -1,5 +1,7 @@
 // React
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { logInByEmail } from 'redux/actions/authActions';
 // UI components
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -7,8 +9,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
 const propTypes = {
-    isOpened: PropTypes.bool,
-    handleClose: PropTypes.func
+    email: PropTypes.string,
+    dispatch: PropTypes.func.isRequired,
+    isOpened: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired
 };
 
 class LogInDialog extends Component {
@@ -16,7 +20,7 @@ class LogInDialog extends Component {
         super(props);
 
         this.state = {
-            email: '',
+            email: props.email || '',
             password: ''
         };
 
@@ -29,6 +33,7 @@ class LogInDialog extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
+        this.props.dispatch(logInByEmail(this.state.email, this.state.password));
         this.props.handleClose();
     }
 
@@ -93,4 +98,10 @@ class LogInDialog extends Component {
 
 LogInDialog.propTypes = propTypes;
 
-export default LogInDialog;
+function mapStateToProps(state) {
+    const { email } = state.user;
+
+    return { email };
+}
+
+export default connect(mapStateToProps)(LogInDialog);
