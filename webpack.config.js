@@ -77,7 +77,7 @@ module.exports = {
             },
             {
                 test: /\.jsx?$/,
-                loader: process.env.NODE_ENV !== 'production' ? 'react-hot!babel!eslint-loader' : 'babel',
+                loader: process.env.NODE_ENV !== 'production' ? 'react-hot-loader/webpack!babel!eslint-loader' : 'babel',
                 exclude: [
                     /node_modules/,
                     /public/

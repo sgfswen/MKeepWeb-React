@@ -33,10 +33,10 @@ class Header extends Component {
                         </IconButton>
                     }
                     iconElementRight={this.state.logged ? {} :
-                        <FlatButton
-                            onTouchTap={this.props.handleLogInClick}
-                            label='Log in'
-                        />
+                    <FlatButton
+                        onTouchTap={this.props.handleLogInClick}
+                        label='Log in'
+                    />
                     }
                 />
             </div>
