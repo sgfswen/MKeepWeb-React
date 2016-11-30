@@ -1,6 +1,5 @@
-import { LogInForm, LogInDialog } from './LogIn';
+import LogInDialog from './LogIn';
 
 export {
-    LogInForm,
     LogInDialog
 };
