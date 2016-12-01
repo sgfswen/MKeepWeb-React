@@ -19,23 +19,32 @@ class Layout extends Component {
             isNavigationMenuOpened: false,
             isLogInDialogOpened: false
         };
+
+        this.toggleLogInDialog = this.toggleLogInDialog.bind(this);
+        this.closeLogInDialog = this.closeLogInDialog.bind(this);
     }
 
-    setNavigationMenuState = (state) => {
+    setNavigationMenuState(state) {
         this.setState({
             isNavigationMenuOpened: state
         });
-    };
+    }
 
-    toggleNavigationMenu = () => {
+    toggleNavigationMenu() {
         this.setNavigationMenuState(!this.state.isNavigationMenuOpened);
-    };
+    }
 
-    toggleLogInDialog = () => {
+    toggleLogInDialog(state) {
+        const dialogState = typeof state === 'boolean' ? state : !this.state.isLogInDialogOpened;
+
         this.setState({
-            isLogInDialogOpened: !this.state.isLogInDialogOpened
+            isLogInDialogOpened: dialogState
         });
-    };
+    }
+
+    closeLogInDialog() {
+        this.toggleLogInDialog(false);
+    }
 
     render() {
         return (
@@ -51,7 +60,7 @@ class Layout extends Component {
                 {this.props.children}
                 <LogInDialog
                     isOpened={this.state.isLogInDialogOpened}
-                    handleClose={this.toggleLogInDialog}
+                    handleClose={this.closeLogInDialog}
                 />
             </div>
         );
