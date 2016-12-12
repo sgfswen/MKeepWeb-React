@@ -1,3 +1,7 @@
 import LogInDialog from './LogInDialog';
+import LogInForm from './LogInForm';
 
-export default LogInDialog;
+export {
+    LogInDialog,
+    LogInForm
+};

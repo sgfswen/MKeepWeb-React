@@ -1,13 +1,16 @@
 // React
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 // Components
 import Header from './Header';
-import { LogInDialog } from '../Authorization';
+import { LogInDialog } from 'components/Authorization';
 import NavigationMenu from './NavigationMenu';
 // Styles
 import './Layout.css';
 
 const propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    isAuthorized: PropTypes.bool,
     children: PropTypes.node
 };
 
@@ -20,8 +23,16 @@ class Layout extends Component {
             isLogInDialogOpened: false
         };
 
+        this.setNavigationMenuState = this.setNavigationMenuState.bind(this);
+        this.toggleNavigationMenu = this.toggleNavigationMenu.bind(this);
         this.toggleLogInDialog = this.toggleLogInDialog.bind(this);
         this.closeLogInDialog = this.closeLogInDialog.bind(this);
+    }
+
+    componentWillReceiveProps() {
+        this.setState({
+            isLogInDialogOpened: false
+        });
     }
 
     setNavigationMenuState(state) {
@@ -35,7 +46,9 @@ class Layout extends Component {
     }
 
     toggleLogInDialog(state) {
-        const dialogState = typeof state === 'boolean' ? state : !this.state.isLogInDialogOpened;
+        const dialogState = typeof state === 'boolean' ?
+            state :
+            !this.state.isLogInDialogOpened;
 
         this.setState({
             isLogInDialogOpened: dialogState
@@ -69,4 +82,12 @@ class Layout extends Component {
 
 Layout.propTypes = propTypes;
 
-export default Layout;
+function mapStateToProps(state) {
+    const { isAuthorized } = state.user;
+
+    return {
+        isAuthorized
+    };
+}
+
+export default connect(mapStateToProps)(Layout);
