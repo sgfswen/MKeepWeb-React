@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 // UI components
+import Chip from 'material-ui/Chip';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import LinearProgress from 'material-ui/LinearProgress';
@@ -12,12 +13,17 @@ import './LogInDialog.less';
 const propTypes = {
     isOpened: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
-    fetching: PropTypes.bool
+    fetching: PropTypes.bool,
+    fetchingError: PropTypes.string
 };
 
 class LogInDialog extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            currentForm: 'logIn'
+        };
 
         this.handleClose = this.handleClose.bind(this);
     }
@@ -26,10 +32,10 @@ class LogInDialog extends Component {
         this.props.handleClose();
     }
 
-    render() {
+    getDialogActions({ fetching, fetchingError }) {
         const actions = [];
 
-        if (this.props.fetching) {
+        if (fetching) {
             actions.push(
                 <LinearProgress
                     key='progress'
@@ -38,6 +44,17 @@ class LogInDialog extends Component {
                 />
             );
         } else {
+            if (fetchingError) {
+                actions.push(
+                    <Chip
+                        className='error-message'
+                        labelColor='secondary'
+                    >
+                        <b>Error:</b> {fetchingError}
+                    </Chip>
+                );
+            }
+
             actions.push(
                 <FlatButton
                     key='close'
@@ -45,6 +62,21 @@ class LogInDialog extends Component {
                     onTouchTap={this.handleClose}
                 />
             );
+        }
+
+        return actions;
+    }
+
+    render() {
+        const actions = this.getDialogActions(this.props);
+        let form;
+
+        switch (this.state.currentForm) {
+            case 'logIn':
+                form = <LogInForm />;
+                break;
+            default:
+                form = <LogInForm />;
         }
 
         return (
@@ -56,7 +88,7 @@ class LogInDialog extends Component {
                     onRequestClose={this.props.handleClose}
                     actions={actions}
                 >
-                    <LogInForm />
+                    {form}
                 </Dialog>
             </div>
         );
@@ -66,10 +98,12 @@ class LogInDialog extends Component {
 LogInDialog.propTypes = propTypes;
 
 function mapStateToProps(state) {
-    const { fetching } = state.user;
+    const fetching = state.user.fetching.inProgress;
+    const fetchingError = state.user.fetching.error;
 
     return {
-        fetching
+        fetching,
+        fetchingError
     };
 }
 

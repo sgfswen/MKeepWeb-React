@@ -16,6 +16,7 @@ import UserIcon from 'material-ui/svg-icons/social/person';
 
 const propTypes = {
     dispatch: PropTypes.func.isRequired,
+    userName: PropTypes.string,
     isAuthorized: PropTypes.bool,
     handleNavigationClick: PropTypes.func,
     handleLogInClick: PropTypes.func,
@@ -31,7 +32,6 @@ class Header extends Component {
     }
 
     handleLogOutClick() {
-        console.log('handleLogOutClick');
         this.props.dispatch(logOut());
     }
 
@@ -45,6 +45,8 @@ class Header extends Component {
     }
 
     getUserMenu() {
+        const userName = `Hello, ${this.props.userName}`;
+
         return (
             <IconMenu
                 iconButtonElement={
@@ -55,6 +57,9 @@ class Header extends Component {
                 targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
+                <MenuItem
+                    primaryText={userName}
+                />
                 <Divider />
                 <MenuItem
                     primaryText='Log Out'
@@ -70,19 +75,24 @@ class Header extends Component {
     }
 
     render() {
+        const isAuthorized = this.isAuthorized();
+        const elementLeft = isAuthorized ?
+            (
+                <IconButton onTouchTap={this.props.handleNavigationClick}>
+                    <NavigationMenuIcon />
+                </IconButton>
+            ) : null;
+        const elementRight = isAuthorized ?
+            this.getUserMenu() :
+            this.getLogInButton();
+
         return (
             <div>
                 <AppBar
                     title='Money Keeper'
-                    iconElementLeft={
-                        <IconButton onTouchTap={this.props.handleNavigationClick}>
-                            <NavigationMenuIcon />
-                        </IconButton>
-                    }
-                    iconElementRight={this.isAuthorized() ?
-                        this.getUserMenu() :
-                        this.getLogInButton()
-                    }
+                    showMenuIconButton={isAuthorized}
+                    iconElementLeft={elementLeft}
+                    iconElementRight={elementRight}
                 />
             </div>
         );
@@ -93,9 +103,11 @@ Header.propTypes = propTypes;
 
 function mapStateToProps(state) {
     const { isAuthorized } = state.user;
+    const userName = isAuthorized ? state.user.data.name : '';
 
     return {
-        isAuthorized
+        isAuthorized,
+        userName
     };
 }
 

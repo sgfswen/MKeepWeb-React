@@ -23,7 +23,7 @@ Run next commands in 2 separate terminals:
 $ npm run nodemon
 ```
 ```
-$ npm run webpack-devserver
+$ npm run webpack
 ```
 
 ##Possible problems
