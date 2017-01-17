@@ -1,5 +1,6 @@
 import Authorization from 'repositories/Authorization';
 import ProfileRepository from 'repositories/ProfileRepository';
+import { getProjectsList } from 'redux/actions/projectsActions';
 
 const auth = new Authorization();
 const profileRep = new ProfileRepository();
@@ -61,6 +62,7 @@ export function getUserProfile() {
         profileRep.getProfile()
             .then((data) => {
                 dispatch(getUserProfileFinished(data));
+                dispatch(getProjectsList());
             })
             .catch((error) => {
                 dispatch(getUserProfileFailed(error));
