@@ -11,20 +11,19 @@ import {
     CREATE_NEW_ACCOUNT_FAILED
 } from 'redux/actions/authActions';
 
-/*
-state.user = {
-    isAuthorized: true,
-    fetching: {
-        inProgress: false,
-        error: null
-    },
-    data: {
-        email: 'some@email.com',
-        name: 'User'
-    }
-}
+/**
+ *  {
+ *      isAuthorized: true,
+ *      fetching: {
+ *          inProgress: false,
+ *          error: null
+ *      },
+ *      data: {
+ *          email: 'some@email.com',
+ *          name: 'User'
+ *      }
+ *  }
  */
-
 const initialState = {
     isAuthorized: false,
     fetching: {
@@ -77,16 +76,12 @@ export default function (state = initialState, action) {
                 data: {}
             });
         case CREATE_NEW_ACCOUNT_STARTED:
-            console.info('CREATE_NEW_ACCOUNT_STARTED', action);
-
             return Object.assign({}, state, {
                 fetching: Object.assign({}, state.fetching, {
                     inProgress: true
                 })
             });
         case CREATE_NEW_ACCOUNT_FINISHED:
-            console.info('CREATE_NEW_ACCOUNT_FINISHED', action);
-
             return Object.assign({}, state, {
                 isAuthorized: true,
                 fetching: Object.assign({}, state.fetching, {
@@ -95,8 +90,6 @@ export default function (state = initialState, action) {
                 })
             });
         case CREATE_NEW_ACCOUNT_FAILED:
-            console.info('CREATE_NEW_ACCOUNT_FAILED', action);
-
             return Object.assign({}, state, {
                 isAuthorized: false,
                 fetching: Object.assign({}, state.fetching, {

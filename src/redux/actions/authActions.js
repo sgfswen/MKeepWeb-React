@@ -8,12 +8,30 @@ export const AUTH_LOG_IN_EMAIL_STARTED = 'AUTH_LOG_IN_EMAIL_STARTED';
 export const AUTH_LOG_IN_EMAIL_FINISHED = 'AUTH_LOG_IN_EMAIL_FINISHED';
 export const AUTH_LOG_IN_EMAIL_FAILED = 'AUTH_LOG_IN_EMAIL_FAILED';
 export const AUTH_LOG_OUT = 'AUTH_LOG_OUT';
-export const GET_USER_PROFILE_STARTED = 'AUTH_LOG_IN_EMAIL_STARTED';
-export const GET_USER_PROFILE_FINISHED = 'GET_USER_PROFILE_FINISHED';
-export const GET_USER_PROFILE_FAILED = 'GET_USER_PROFILE_FAILED';
 export const CREATE_NEW_ACCOUNT_STARTED = 'CREATE_NEW_ACCOUNT_STARTED';
 export const CREATE_NEW_ACCOUNT_FINISHED = 'CREATE_NEW_ACCOUNT_FINISHED';
 export const CREATE_NEW_ACCOUNT_FAILED = 'CREATE_NEW_ACCOUNT_FAILED';
+export const GET_USER_PROFILE_STARTED = 'AUTH_LOG_IN_EMAIL_STARTED';
+export const GET_USER_PROFILE_FINISHED = 'GET_USER_PROFILE_FINISHED';
+export const GET_USER_PROFILE_FAILED = 'GET_USER_PROFILE_FAILED';
+
+/* Log in by email */
+export function logInByEmail(email, password) {
+    return (dispatch) => {
+        dispatch(logInByEmailStart(email, password));
+
+        auth.logInByEmail(email, password)
+            .then(() => {
+                dispatch(logInByEmailFinished());
+                dispatch(getUserProfile());
+            })
+            .catch((error) => {
+                dispatch(logInByEmailFailed(error));
+            });
+
+        return {};
+    };
+}
 
 function logInByEmailStart() {
     return {
@@ -32,6 +50,23 @@ function logInByEmailFailed(error) {
     return {
         type: AUTH_LOG_IN_EMAIL_FAILED,
         error
+    };
+}
+
+/* Get user profile */
+export function getUserProfile() {
+    return (dispatch) => {
+        dispatch(getUserProfileStart());
+
+        profileRep.getProfile()
+            .then((data) => {
+                dispatch(getUserProfileFinished(data));
+            })
+            .catch((error) => {
+                dispatch(getUserProfileFailed(error));
+            });
+
+        return {};
     };
 }
 
@@ -55,33 +90,18 @@ function getUserProfileFailed(error) {
     };
 }
 
-export function getUserProfile() {
+/* Create new account */
+export function createNewAccount(email, password) {
     return (dispatch) => {
-        dispatch(getUserProfileStart());
+        dispatch(createNewAccountStart(email, password));
 
-        profileRep.getProfile()
-            .then((data) => {
-                dispatch(getUserProfileFinished(data));
-            })
-            .catch((error) => {
-                dispatch(getUserProfileFailed(error));
-            });
-
-        return {};
-    };
-}
-
-export function logInByEmail(email, password) {
-    return (dispatch) => {
-        dispatch(logInByEmailStart(email, password));
-
-        auth.logInByEmail(email, password)
+        auth.createNewAccount(email, password)
             .then(() => {
-                dispatch(logInByEmailFinished());
-                dispatch(getUserProfile());
+                dispatch(createNewAccountFinished());
+                logInByEmail(email, password);
             })
             .catch((error) => {
-                dispatch(logInByEmailFailed(error));
+                dispatch(createNewAccountFailed(error));
             });
 
         return {};
@@ -108,23 +128,7 @@ function createNewAccountFailed(error) {
     };
 }
 
-export function createNewAccount(email, password) {
-    return (dispatch) => {
-        dispatch(createNewAccountStart(email, password));
-
-        auth.createNewAccount(email, password)
-            .then(() => {
-                dispatch(createNewAccountFinished());
-                logInByEmail(email, password);
-            })
-            .catch((error) => {
-                dispatch(createNewAccountFailed(error));
-            });
-
-        return {};
-    };
-}
-
+/* Log out */
 export function logOut() {
     return {
         type: AUTH_LOG_OUT
