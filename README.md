@@ -47,7 +47,8 @@ npm ERR! Cannot find module 'internal/fs'
 Install latest stable `npm` and `node` and do `$ sudo rm -rf /usr/local/lib/node_modules/`
 
 ##Dev tools
-[React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
+- [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
+- [Redux DevTools Extension](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd) ([repo](https://github.com/zalmoxisus/redux-devtools-extension))
 
 Install extension and restart browser
 
