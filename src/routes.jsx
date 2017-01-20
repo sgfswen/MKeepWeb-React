@@ -10,6 +10,7 @@ import DashboardPage from 'components/DashboardPage';
 export default (
     <Route component={App} path='/'>
         <IndexRoute component={DashboardPage}/>
+        <Route component={DashboardPage} path='project/:projectId'/>
         <Route component={AccountsPage} path='settings/accounts'/>
         <Route component={CategoriesPage} path='settings/categories'/>
         <Route component={CurrenciesPage} path='settings/currencies'/>
