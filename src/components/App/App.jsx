@@ -14,7 +14,7 @@ const propTypes = {
 
 class App extends Component {
     componentWillReceiveProps(nextProps) {
-        // Todo: Can I use other method to avoid this `if`?
+        // Todo: Can I use another component lifecycle method to avoid this `if`?
         if (this.props.currentProjectId !== nextProps.currentProjectId) {
             browserHistory.push(`/project/${nextProps.currentProjectId}`);
         }

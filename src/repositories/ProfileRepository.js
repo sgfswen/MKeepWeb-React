@@ -2,23 +2,10 @@
 import request from 'superagent';
 // App modules
 import Repository from './Repository';
-import Authorization from './Authorization';
-
-const auth = new Authorization();
 
 class ProfileRepository extends Repository {
     getUrl() {
-        return new Promise((resolve, reject) => {
-            auth.getAccessToken()
-                .then((accessToken) => {
-                    const apiUrl = super.getUrl();
-
-                    resolve(`${apiUrl}/profile?access_token=${accessToken}`);
-                })
-                .catch((error) => {
-                    reject(error);
-                });
-        });
+        return super.getUrl('profile');
     }
 
     getProfile() {

@@ -6,11 +6,10 @@ import config from '../config';
 
 const { clientId, clientSecret, tokenMaxAge } = config.auth;
 
-import Repository from './Repository';
-
-class Authorization extends Repository {
+class Authorization {
     getUrl(action) {
-        const apiUrl = super.getUrl();
+        const { protocol, url } = config.api;
+        const apiUrl = `${protocol}://${url}/`;
 
         switch (action) {
             case 'logInEmail':

@@ -1,5 +1,6 @@
 // React
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 // UI components
 import Divider from 'material-ui/Divider';
@@ -16,7 +17,8 @@ import './NavigationMenu.css';
 
 const propTypes = {
     isOpened: PropTypes.bool,
-    setState: PropTypes.func
+    setState: PropTypes.func,
+    currentProjectId: PropTypes.string
 };
 
 let menuItemsCounter = 0;
@@ -57,17 +59,17 @@ class NavigationMenu extends Component {
         });
         const settingsMenuItems = [
             {
-                link: '/settings/currencies',
+                link: `/project/${this.props.currentProjectId}/currencies`,
                 text: 'Currencies',
                 icon: <CurrenciesIcon />
             },
             {
-                link: '/settings/accounts',
+                link: `/project/${this.props.currentProjectId}/accounts`,
                 text: 'Accounts',
                 icon: <AccountsIcon />
             },
             {
-                link: '/settings/categories',
+                link: `/project/${this.props.currentProjectId}/categories`,
                 text: 'Categories',
                 icon: <CategoriesIcon />
             }
@@ -92,4 +94,10 @@ class NavigationMenu extends Component {
 
 NavigationMenu.propTypes = propTypes;
 
-export default NavigationMenu;
+function mapStateToProps(state) {
+    return {
+        currentProjectId: state.projects.currentProject
+    };
+}
+
+export default connect(mapStateToProps)(NavigationMenu);

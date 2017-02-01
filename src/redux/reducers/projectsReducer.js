@@ -1,7 +1,8 @@
 import {
     GET_PROJECTS_LIST_STARTED,
     GET_PROJECTS_LIST_FINISHED,
-    GET_PROJECTS_LIST_FAILED
+    GET_PROJECTS_LIST_FAILED,
+    CURRENT_PROJECT_CHANGED
 } from 'redux/actions/projectsActions';
 
 /**
@@ -49,6 +50,10 @@ export default function (state = initialState, action) {
                     lastUpdate: date
                 })
             });
+        case CURRENT_PROJECT_CHANGED:
+            return Object.assign({}, state, {
+                currentProject: action.project._id
+            });
         default:
             return state;
     }
@@ -60,15 +65,12 @@ function getNewStateByProjectsList(currentState, projectsList, date) {
             inProgress: false,
             lastUpdate: date
         }),
-        currentProject: null,
         data: {}
     });
 
     for (const project of projectsList) {
-        newState[project._id] = Object.assign({}, project);
+        newState.data[project._id] = Object.assign({}, project);
     }
-
-    newState.currentProject = projectsList[0]._id;
 
     return newState;
 }

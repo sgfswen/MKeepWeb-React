@@ -1,5 +1,4 @@
-import Authorization from 'repositories/Authorization';
-import ProfileRepository from 'repositories/ProfileRepository';
+import { Authorization, ProfileRepository } from 'repositories';
 import { getProjectsList } from 'redux/actions/projectsActions';
 
 const auth = new Authorization();
@@ -29,8 +28,6 @@ export function logInByEmail(email, password) {
             .catch((error) => {
                 dispatch(logInByEmailFailed(error));
             });
-
-        return {};
     };
 }
 
@@ -67,8 +64,6 @@ export function getUserProfile() {
             .catch((error) => {
                 dispatch(getUserProfileFailed(error));
             });
-
-        return {};
     };
 }
 
@@ -105,8 +100,6 @@ export function createNewAccount(email, password) {
             .catch((error) => {
                 dispatch(createNewAccountFailed(error));
             });
-
-        return {};
     };
 }
 

@@ -1,7 +1,7 @@
 export default {
     api: {
         protocol: 'http',
-        apiUrl: 'localhost:8080/api'
+        url: 'localhost:8080/api'
     },
     auth: {
         clientId: 'MKWebAppV1',
