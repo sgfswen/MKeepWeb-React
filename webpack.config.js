@@ -1,97 +1,72 @@
-global.Promise = require('bluebird');
+const path = require('path');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var webpack = require('webpack');
-var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
+const envNames = {
+    prod: 'production',
+    dex: 'development'
+};
+const isProduction = () => {
+    return process.env.NODE_ENV === envNames.prod;
+};
 
-var publicPath = '/public/assets';
-var cssName = process.env.NODE_ENV === 'production' ? 'styles-[hash].css' : 'styles.css';
-var jsName = process.env.NODE_ENV === 'production' ? 'bundle-[hash].js' : 'bundle.js';
+const outputJSFileName = isProduction() ? 'bundle-[hash].js' : 'bundle.js';
+const outputCSSFileName = isProduction() ? 'styles-[hash].css' : 'styles.css';
 
-var plugins = [
+const plugins = [
     new webpack.DefinePlugin({
         'process.env': {
             BROWSER: JSON.stringify(true),
-            NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
+            NODE_ENV: JSON.stringify(process.env.NODE_ENV || envNames.dev)
         }
     }),
-    new ExtractTextPlugin(cssName)
+    new ExtractTextPlugin(outputCSSFileName)
 ];
 
-if (process.env.NODE_ENV === 'production') {
-    plugins.push(
-        new CleanWebpackPlugin(['public/assets/'], {
-            root: __dirname,
-            verbose: true,
-            dry: false
-        })
-    );
-    plugins.push(new webpack.optimize.DedupePlugin());
-    plugins.push(new webpack.optimize.OccurenceOrderPlugin());
-}
-
 module.exports = {
-    entry: ['babel-polyfill', './src/client.jsx'],
-    debug: process.env.NODE_ENV !== 'production',
+    entry: './src/client.jsx',
+    output: {
+        filename: outputJSFileName,
+        path: `${__dirname}/public/assets/`
+    },
     resolve: {
-        root: path.join(__dirname, 'src'),
-        modulesDirectories: ['node_modules'],
-        extensions: ['', '.js', '.jsx']
+        extensions: ['.js', '.jsx'],
+        modules: [
+            path.join(__dirname, 'src'),
+            'node_modules'
+        ]
     },
     plugins,
-    output: {
-        path: `${__dirname}/public/assets/`,
-        filename: jsName,
-        publicPath
-    },
+    // devServer: {
+    //     contentBase: path.resolve(__dirname, './src'),  // New
+    //     headers: {
+    //         'Access-Control-Allow-Origin': '*'
+    //     }
+    // }
     module: {
         loaders: [
             {
-                test: /\.css$/,
-                loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader')
-            },
-            {
-                test: /\.less$/,
-                loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader!less-loader')
-            },
-            {
-                test: /\.gif$/,
-                loader: 'url-loader?limit=10000&mimetype=image/gif'
-            },
-            {
-                test: /\.jpg$/,
-                loader: 'url-loader?limit=10000&mimetype=image/jpg'
-            },
-            {
-                test: /\.png$/,
-                loader: 'url-loader?limit=10000&mimetype=image/png'
-            },
-            {
-                test: /\.svg/,
-                loader: 'url-loader?limit=26000&mimetype=image/svg+xml'
-            },
-            {
-                test: /\.(woff|woff2|ttf|eot)/,
-                loader: 'url-loader?limit=1'
-            },
-            {
-                test: /\.jsx?$/,
-                loader: process.env.NODE_ENV !== 'production' ? 'react-hot-loader/webpack!babel!eslint-loader' : 'babel',
+                test: /.jsx?$/,
+                loader: 'babel-loader',
                 exclude: [
                     /node_modules/,
                     /public/
-                ]
+                ],
+                query: {
+                    presets: ['es2015', 'react']
+                }
             },
             {
-                test: /\.json$/,
-                loader: 'json-loader'
+                test: /\.scss$/,
+                use: [
+                    {
+                        loader: "css-loader" // translates CSS into CommonJS
+                    },
+                    {
+                        loader: "sass-loader" // compiles Sass to CSS
+                    }
+                ]
             }
         ]
     },
-    devtool: process.env.NODE_ENV !== 'production' ? 'source-map' : null,
-    devServer: {
-        headers: { 'Access-Control-Allow-Origin': '*' }
-    },
-    eslint: { configFile: '.eslintrc' }
 };

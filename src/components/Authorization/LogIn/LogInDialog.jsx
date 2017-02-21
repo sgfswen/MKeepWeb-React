@@ -8,7 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 import LinearProgress from 'material-ui/LinearProgress';
 import { LogInForm } from 'components/Authorization';
 // Styles
-import './LogInDialog.less';
+import './LogInDialog.scss';
 
 const propTypes = {
     isOpened: PropTypes.bool.isRequired,

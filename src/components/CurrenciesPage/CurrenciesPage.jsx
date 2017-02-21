@@ -21,7 +21,7 @@ import {
 } from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
 // Styles
-import './CurrenciesPage.less';
+import './CurrenciesPage.scss';
 
 const propTypes = {
     projectId: PropTypes.string,

@@ -6,7 +6,7 @@ import Header from './Header';
 import { LogInDialog } from 'components/Authorization';
 import NavigationMenu from './NavigationMenu';
 // Styles
-import './Layout.css';
+import './Layout.scss';
 
 const propTypes = {
     dispatch: PropTypes.func.isRequired,

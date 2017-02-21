@@ -13,7 +13,7 @@ import CategoriesIcon from 'material-ui/svg-icons/action/list';
 import CurrenciesIcon from 'material-ui/svg-icons/action/euro-symbol';
 import HomeIcon from 'material-ui/svg-icons/action/home';
 // Styles
-import './NavigationMenu.css';
+import './NavigationMenu.scss';
 
 const propTypes = {
     isOpened: PropTypes.bool,
@@ -32,24 +32,27 @@ class NavigationMenu extends Component {
         };
     }
 
-    handleClose = () => {
+    handleClose() {
         this.props.setState(false);
     };
 
-    handleState = (state) => {
+    handleState(state) {
         this.props.setState(state);
     };
 
-    getMenuItemElement = (menuItemData) =>
-        <MenuItem
-            key={menuItemsCounter++}
-            primaryText={menuItemData.text}
-            onTouchTap={() => {
-                this.handleClose();
-                browserHistory.push(menuItemData.link);
-            }}
-            leftIcon={menuItemData.icon}
-        />;
+    getMenuItemElement(menuItemData) {
+        return (
+            <MenuItem
+                key={menuItemsCounter++}
+                primaryText={menuItemData.text}
+                onTouchTap={() => {
+                    this.handleClose();
+                    browserHistory.push(menuItemData.link);
+                }}
+                leftIcon={menuItemData.icon}
+            />
+        );
+    }
 
     render() {
         const homeMenuItem = this.getMenuItemElement({

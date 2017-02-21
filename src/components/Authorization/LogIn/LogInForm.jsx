@@ -9,7 +9,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 // Styles
-import './LogInForm.less';
+import './LogInForm.scss';
 
 const propTypes = {
     dispatch: PropTypes.func.isRequired
